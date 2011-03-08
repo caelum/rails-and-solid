@@ -1,7 +1,3 @@
-module Rails
-  module And
-    module Solid
-      VERSION = "0.0.1"
-    end
-  end
+module RailsAndSolid
+  VERSION = "0.9.0"
 end

@@ -4,7 +4,7 @@ require "rails-and-solid/version"
 
 Gem::Specification.new do |s|
   s.name        = "rails-and-solid"
-  s.version     = Rails::And::Solid::VERSION
+  s.version     = RailsAndSolid::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["TODO: Write your name"]
   s.email       = ["TODO: Write your email address"]
