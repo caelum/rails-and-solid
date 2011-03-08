@@ -1,3 +1,8 @@
+# What is this?
+
+This is a gem that changes Rails behavior to allow you to code more freely, without coupling
+yourself to inheritance issues. Take a look at the examples to see what it changes.
+
 # Installing
 
 Configure the gem in your Gemfile:
@@ -36,3 +41,9 @@ Help? Ok, simple unit tests. Units are split and behavior is composed. This was 
 show that its possible to achieve the same (and better results) with less coupling and a different
 OO design approach. So what about start unit testing, providing new handlers, new helpers or
 just doing a blog post on it? Refactoring trick_him would also be nice.
+
+# Why not changing Rails internally?
+
+One needs to know how all the mixin of Rails interact with each other (i.e. the 36 ancestors
+of ActionController) in order to make safe changes. That is the coupling this proof of concept
+is trying show how to avoid.
