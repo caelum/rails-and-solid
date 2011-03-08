@@ -1,4 +1,7 @@
 module RailsAndSolid
+  
+  autoload :Helper, 'rails-and-solid/help'
+  autoload :TrickHim, 'rails-and-solid/trick_him'
 
   class JsonHelper
     def initialize(controller)
@@ -6,15 +9,6 @@ module RailsAndSolid
     end
     def message(x)
       @controller.render :json => {'message' => x}
-    end
-  end
-
-  class RedirectToHelper
-    def initialize(controller)
-      @controller = controller
-    end
-    def method_missing(path)
-      @controller.redirect_to @controller.send(path)
     end
   end
 

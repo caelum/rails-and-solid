@@ -76,7 +76,7 @@ module RailsAndSolid
     PROVIDERS = [KEYS, SessionLocator.new, Load.new, Instantiate.new, ParamsAndScopes.new, Param.new]
 
     KEYS["json"] = JsonHelper
-    KEYS["redirect_to"] = RedirectToHelper
+    KEYS["redirect_to"] = Helper::RedirectTo
     KEYS["result"] = ResultHelper
 
     def provide(p)
