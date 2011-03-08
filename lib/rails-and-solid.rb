@@ -116,9 +116,7 @@ module RailsAndSolid
     end
   end
 
-  class ApplicationController < ActionController::Base
-
-    protect_from_forgery
+  module TrickHim
 
     def method_for_action(method)
       # TRICKing rails... no inheritance support
