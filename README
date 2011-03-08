@@ -21,26 +21,187 @@ and make it believe you have the controller he wants, just trick him:
   
   end
 
-# Using
+# Inheritance coupling in controllers
 
-NO INHERITANCE
+Ok. Time for some goodies. First example, let's unpimp :
 
-GIVE A SIMPLE EXAMPLE
+[code]
+RailsAndSolid.pimp :clients
 
-GIVE A LOAD EXAMPLE
+class ClientsControl
+  
+  def show(id)
+    @client = Client.find(id)
+  end
+  
+end
+[/code]
 
-GIVE AN AMAZING EXAMPLE
+Notice that *id* is the parameter *id* from your http request. No inheritance required.
+Same old behavior. No http params appeared. You can unit test for real, without all
+its inherited behavior.
 
-# Helpers
+Why? Am I really coupled to something when inheriting?
+
+[code]
+rails console
+> ActionController::Base.instance_methods.size
+374
+> (ActionController::Base.instance_methods + ActionController::Base.instance_methods - Object.instance_methods - Object.private_instance_methods).size
+560
+> ActionController::Base.methods.size
+353
+> ActionController::Base.ancestors.size
+36
+[/code]
+
+By default, when creating a new controller in Rails, you are coupled
+with 374 public methods (*542 in total*), inheriting behavior from *36 different* sources.
+
+# Session parameters
+
+[code]
+class ClientsControl
+  
+  def show(current_user, id)
+	# if session[:current_user] exists, guess who is here?
+  end
+  
+end
+[/code]
+
+Again, unit testable. Non-http intrusive.
+
+# Session parameters
+
+[code]
+class ClientsControl
+  
+  def show(current_user, id)
+	# if session[:current_user] exists, guess who is here?
+  end
+  
+end
+[/code]
+
+# What about creating a client?
+
+Well, just create it:
+
+[code]
+class ClientsControl
+  
+  def create(client)
+	client.save
+  end
+  
+end
+[/code]
+
+# But you can't load, right?
+
+I don't think so:
+
+[code]
+class ClientsControl
+  
+	def show(loaded_client)
+		@client = loaded_client
+	end
+  
+end
+[/code]
+
+# But what about responses? Sessions? Http stuff?
+
+Just bind to what you need, nothing more than that:
+
+[code]
+def logout(session, redirect_to, flash)
+  session[:current_user] = nil
+  flash[:message] = "Logged out..."
+  redirect_to.root_path
+end
+[/code]
+
+# Internally: Helpers
+
+Helpers are the classes that help passing parameters to those
+methods by using a key based lookup algorithm. For example
+if a 'json' parameter is received, one will use the Json helper
+to return it:
+
+[code]
+class ApplicationController < ActionController::Base
+  
+  protect_from_forgery
+  include RailsAndSolid::TrickHim
+
+  class JsonHelper
+    def initialize(controller)
+      @controller = controller
+    end
+    def message(x)
+      @controller.render :json => {'message' => x}
+    end
+  end
+
+  KEYS["json"] = JsonHelper
+  
+end
+[/code]
+
+Now you can receive json and use the message:
+
+[code]
+def some_action(json)
+	json.message("Well done!")
+end
+[/code]
+
+You can use those auxiliary objects to compose any kind of behavior (not just rendering)
+by just receiving the expected coupled semantic value instead of inheriting everything.
 
 # Handlers
 
-# TODO
+Handlers are not key-fixed parameter providers. For instance, the param lookup:
 
-Help? Ok, simple unit tests. Units are split and behavior is composed. This was only to
+[code]
+module RailsAndSolid
+  module Handler
+    class Param
+      def extract(controller, name)
+        controller.params[name]
+      end
+      def handles?(controller, name)
+        controller.params[name]
+      end
+    end
+  end
+end[/code]
+
+It will be asked whether it can handle this parameter and the provide it.
+
+# TODO List
+
+Help?
+
+First, simple unit tests.
+
+Units are split and behavior is composed. This was only to
 show that its possible to achieve the same (and better results) with less coupling and a different
 OO design approach. So what about start unit testing, providing new handlers, new helpers or
-just doing a blog post on it? Refactoring trick_him would also be nice.
+just doing a blog post on it? Refactoring trick_him would also be nice. Removing the
+pimp method would be even better but that requires more refactoring on Rails internals,
+not just tricking it.
+
+Results from handlers "handles?" could be cached.
+
+You can also implement DI support by correctly implementing di_instantiate(type) at TrickHim.
+
+Finally, feel you can support named parameters in 1.8.7+ if not yet supported.
+
+Everything is quite simple so far as this is just a concept
 
 # Why not changing Rails internally?
 
