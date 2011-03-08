@@ -1,0 +1,17 @@
+# Installing
+
+Configure the gem in your Gemfile:
+
+  gem 'rails-and-solid'
+
+# Configuring
+
+In order not to refactor Rails completely, the easiest solution is to just trick it
+and make it believe you have the controller he wants, just trick him:
+
+  class ApplicationController < ActionController::Base
+    
+    protect_from_forgery
+    include RailsAndSolid::TrickHim
+  
+  end
