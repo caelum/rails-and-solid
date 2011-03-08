@@ -15,3 +15,24 @@ and make it believe you have the controller he wants, just trick him:
     include RailsAndSolid::TrickHim
   
   end
+
+# Using
+
+NO INHERITANCE
+
+GIVE A SIMPLE EXAMPLE
+
+GIVE A LOAD EXAMPLE
+
+GIVE AN AMAZING EXAMPLE
+
+# Helpers
+
+# Handlers
+
+# TODO
+
+Help? Ok, simple unit tests. Units are split and behavior is composed. This was only to
+show that its possible to achieve the same (and better results) with less coupling and a different
+OO design approach. So what about start unit testing, providing new handlers, new helpers or
+just doing a blog post on it? Refactoring trick_him would also be nice.
