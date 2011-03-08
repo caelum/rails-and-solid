@@ -77,7 +77,7 @@ module RailsAndSolid
 
     KEYS["json"] = JsonHelper
     KEYS["redirect_to"] = Helper::RedirectTo
-    KEYS["result"] = ResultHelper
+    KEYS["result"] = Result
 
     def provide(p)
       name = p.to_s

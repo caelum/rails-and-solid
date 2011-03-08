@@ -1,6 +1,6 @@
 module RailsAndSolid
   
-  autoload :Helper, 'rails-and-solid/help'
+  autoload :Helper, 'rails-and-solid/helper'
   autoload :TrickHim, 'rails-and-solid/trick_him'
 
   class JsonHelper
@@ -9,30 +9,6 @@ module RailsAndSolid
     end
     def message(x)
       @controller.render :json => {'message' => x}
-    end
-  end
-
-  class ResultHelper
-
-    def initialize(controller)
-      @controller = controller
-    end
-
-    def redirect_to(where = nil)
-      if where
-        @controller.redirect_to @controller.send("#{where.to_s}_path")
-      else
-        RedirectToHelper.new(@controller)
-      end
-    end
-
-    def render(*args, &block)
-      @controller.render *args, &block
-    end
-
-    def text(content, options = {}, &block)
-      options[:text] = content
-      @controller.render(options, &block)
     end
   end
 
