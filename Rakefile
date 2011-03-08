@@ -8,3 +8,7 @@ require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = ['--colour', '--format progress']
 end
+
+task :local_install => [:build] do
+  sh 'gem install -l pkg/*.gem'
+end
