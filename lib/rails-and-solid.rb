@@ -6,7 +6,13 @@ module RailsAndSolid
 
   # Shortcut to hack rails.
   def self.pimp(what)
-    eval "class #{what.to_s.camelize}Controller < ApplicationController; end"
+    Object.module_eval "class #{what.to_s.camelize}Controller < ApplicationController; end"
   end
 
+end
+
+class ActionController::Base
+  def self.solidify
+    include RailsAndSolid::TrickHim
+  end
 end

@@ -1,9 +1,9 @@
 module RailsAndSolid
   module Handler
     class Instantiate
-      def extract(controller, var)
-        val = var.camelize.constantize.new(controller.params[p])
-        controller.send :instance_variable_set ,"@#{var}", val
+      def extract(controller, name)
+        val = name.camelize.constantize.new(controller.params[p])
+        controller.send :instance_variable_set ,"@#{name}", val
         return val
       end
       def handles?(controller, name)
