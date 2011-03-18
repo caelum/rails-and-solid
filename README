@@ -16,8 +16,7 @@ and make it believe you have the controller he wants, just trick him:
 
   class ApplicationController < ActionController::Base
     
-    protect_from_forgery
-    include RailsAndSolid::TrickHim
+    solidify
   
   end
 
@@ -135,7 +134,7 @@ to return it:
 class ApplicationController < ActionController::Base
   
   protect_from_forgery
-  include RailsAndSolid::TrickHim
+  solidify
 
   class JsonHelper
     def initialize(controller)
